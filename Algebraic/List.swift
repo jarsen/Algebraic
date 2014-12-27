@@ -87,7 +87,10 @@ extension List {
 
 // MARK: Appending Lists
 
-infix operator ++ {}
+infix operator ++ {
+    associativity right
+    precedence 150
+}
 
 public func ++<T>(lhs: List<T>, rhs: List<T>) -> List<T> {
     return append(lhs, rhs)
