@@ -11,6 +11,7 @@
 		1E181B371A4E5D5A00F75BEA /* Algebraic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E181B2B1A4E5D5900F75BEA /* Algebraic.framework */; };
 		1E181B3E1A4E5D5A00F75BEA /* AlgebraicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B3D1A4E5D5A00F75BEA /* AlgebraicTests.swift */; };
 		1E181B481A4E5FCD00F75BEA /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B471A4E5FCD00F75BEA /* Box.swift */; };
+		1E181B4A1A4E605B00F75BEA /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B491A4E605B00F75BEA /* List.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		1E181B3C1A4E5D5A00F75BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E181B3D1A4E5D5A00F75BEA /* AlgebraicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgebraicTests.swift; sourceTree = "<group>"; };
 		1E181B471A4E5FCD00F75BEA /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		1E181B491A4E605B00F75BEA /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				1E181B301A4E5D5900F75BEA /* Algebraic.h */,
 				1E181B2E1A4E5D5900F75BEA /* Supporting Files */,
 				1E181B471A4E5FCD00F75BEA /* Box.swift */,
+				1E181B491A4E605B00F75BEA /* List.swift */,
 			);
 			path = Algebraic;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E181B481A4E5FCD00F75BEA /* Box.swift in Sources */,
+				1E181B4A1A4E605B00F75BEA /* List.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +406,7 @@
 				1E181B431A4E5D5A00F75BEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1E181B441A4E5D5A00F75BEA /* Build configuration list for PBXNativeTarget "AlgebraicTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +415,7 @@
 				1E181B461A4E5D5A00F75BEA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
