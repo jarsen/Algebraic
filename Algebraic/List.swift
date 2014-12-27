@@ -309,8 +309,7 @@ public func reverse<T>(list: List<T>) -> List<T> {
     }
 }
 
-// this is haskell's concat
-public func flatten<T>(list: List<List<T>>) -> List<T> {
+public func concat<T>(list: List<List<T>>) -> List<T> {
     return foldr(list, .Nil, ++)
 }
 
