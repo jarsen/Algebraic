@@ -10,6 +10,7 @@
 		1E181B311A4E5D5900F75BEA /* Algebraic.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E181B301A4E5D5900F75BEA /* Algebraic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E181B371A4E5D5A00F75BEA /* Algebraic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E181B2B1A4E5D5900F75BEA /* Algebraic.framework */; };
 		1E181B3E1A4E5D5A00F75BEA /* AlgebraicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B3D1A4E5D5A00F75BEA /* AlgebraicTests.swift */; };
+		1E181B481A4E5FCD00F75BEA /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B471A4E5FCD00F75BEA /* Box.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		1E181B361A4E5D5A00F75BEA /* AlgebraicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlgebraicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E181B3C1A4E5D5A00F75BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E181B3D1A4E5D5A00F75BEA /* AlgebraicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgebraicTests.swift; sourceTree = "<group>"; };
+		1E181B471A4E5FCD00F75BEA /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				1E181B301A4E5D5900F75BEA /* Algebraic.h */,
 				1E181B2E1A4E5D5900F75BEA /* Supporting Files */,
+				1E181B471A4E5FCD00F75BEA /* Box.swift */,
 			);
 			path = Algebraic;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E181B481A4E5FCD00F75BEA /* Box.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +323,7 @@
 		1E181B421A4E5D5A00F75BEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -328,12 +333,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		1E181B431A4E5D5A00F75BEA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
