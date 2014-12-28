@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E00765D1A50A85600FACB56 /* Seq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E00765C1A50A85600FACB56 /* Seq.swift */; };
 		1E181B311A4E5D5900F75BEA /* Algebraic.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E181B301A4E5D5900F75BEA /* Algebraic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E181B371A4E5D5A00F75BEA /* Algebraic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E181B2B1A4E5D5900F75BEA /* Algebraic.framework */; };
 		1E181B3E1A4E5D5A00F75BEA /* AlgebraicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E181B3D1A4E5D5A00F75BEA /* AlgebraicTests.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E00765C1A50A85600FACB56 /* Seq.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seq.swift; sourceTree = "<group>"; };
 		1E181B2B1A4E5D5900F75BEA /* Algebraic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Algebraic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E181B2F1A4E5D5900F75BEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E181B301A4E5D5900F75BEA /* Algebraic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Algebraic.h; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				1E181B471A4E5FCD00F75BEA /* Box.swift */,
 				1E181B491A4E605B00F75BEA /* List.swift */,
 				1E181B4B1A4E979A00F75BEA /* BST.swift */,
+				1E00765C1A50A85600FACB56 /* Seq.swift */,
 			);
 			path = Algebraic;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E181B481A4E5FCD00F75BEA /* Box.swift in Sources */,
+				1E00765D1A50A85600FACB56 /* Seq.swift in Sources */,
 				1E181B4C1A4E979A00F75BEA /* BST.swift in Sources */,
 				1E181B4A1A4E605B00F75BEA /* List.swift in Sources */,
 			);

@@ -32,22 +32,35 @@ extension List : Printable {
 
 // MARK: head & tail
 
-public func head<T>(list: List<T>) -> T? {
-    switch list {
-    case .Nil:
-        return nil
-    case let .Cons(head, _):
-        return head()
+extension List : Seq {
+    typealias S = List<T>
+    typealias Element = T
+    
+    public func head() -> T? {
+        switch self {
+        case .Nil:
+            return nil
+        case let .Cons(head, _):
+            return head()
+        }
+    }
+    
+    public func tail() -> List {
+        switch self {
+        case .Nil:
+            return List.Nil
+        case let .Cons(_, tailBox):
+            return tailBox.unbox
+        }
     }
 }
 
+public func head<T>(list: List<T>) -> T? {
+    return list.head()
+}
+
 public func tail<T>(list: List<T>) -> List<T> {
-    switch list {
-    case .Nil:
-        return .Nil
-    case let .Cons(_, tailBox):
-        return tailBox.unbox
-    }
+    return list.tail()
 }
 
 // Mark: Building Lists
