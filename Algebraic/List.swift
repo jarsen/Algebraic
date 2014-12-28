@@ -353,18 +353,24 @@ public func maxElement<T: Comparable>(list: List<T>) -> T? {
 
 public func minElementBy<T, U:Comparable>(list: List<T>, f:T->U) -> T? {
     if let initial = head(list) {
-        return foldr(list, initial) { x, min in
-            return f(x) < f(min) ? x : min
+        let (min, _) = foldr(tail(list), (initial, f(initial))) { x, mins in
+            let (min, fmin) = mins
+            let fx = f(x)
+            return fx < fmin ? (x, fx) : (min, fmin)
         }
+        return min
     }
     return nil
 }
 
 public func maxElementBy<T, U:Comparable>(list: List<T>, f:T->U) -> T? {
     if let initial = head(list) {
-        return foldr(list, initial) { x, max in
-            return f(x) > f(max) ? x : max
+        let (max, _) = foldr(tail(list), (initial, f(initial))) { x, maxs in
+            let (max, fmax) = maxs
+            let fx = f(x)
+            return fx > fmax ? (x, fx) : (max, fmax)
         }
+        return max
     }
     return nil
 }
