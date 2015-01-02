@@ -11,9 +11,14 @@ import Foundation
 public enum List<T> {
     case Nil
     case Cons(@autoclosure () -> T, Box<List<T>>)
+    case Infinite(T, T->T)
     
     init(_ head: T, _ tail: Box<List<T>>) {
         self = .Cons(head, tail)
+    }
+    
+    init(_ head: T, _ f: T->T) {
+        self = .Infinite(head, f)
     }
 }
 
@@ -25,6 +30,8 @@ extension List : Printable {
                 return "[]"
             case let .Cons(head, tailBox):
                 return "\(head()) \(tailBox.unbox.description)"
+            case let .Infinite(h, f):
+                return "[\(h), \(head(tail(self))), \(head(tail(tail(self))))...]"
             }
         }
     }
@@ -32,35 +39,26 @@ extension List : Printable {
 
 // MARK: head & tail
 
-extension List : Seq {
-    typealias S = List<T>
-    typealias Element = T
-    
-    public func head() -> T? {
-        switch self {
-        case .Nil:
-            return nil
-        case let .Cons(head, _):
-            return head()
-        }
-    }
-    
-    public func tail() -> List {
-        switch self {
-        case .Nil:
-            return List.Nil
-        case let .Cons(_, tailBox):
-            return tailBox.unbox
-        }
-    }
-}
-
 public func head<T>(list: List<T>) -> T? {
-    return list.head()
+    switch list {
+    case .Nil:
+        return nil
+    case let .Cons(head, _):
+        return head()
+    case let .Infinite(head, f):
+        return head
+    }
 }
 
 public func tail<T>(list: List<T>) -> List<T> {
-    return list.tail()
+    switch list {
+    case .Nil:
+        return .Nil
+    case let .Cons(_, tailBox):
+        return tailBox.unbox
+    case let .Infinite(head, f):
+        return .Infinite(f(head), f)
+    }
 }
 
 // Mark: Building Lists
@@ -124,6 +122,8 @@ func appendHelper<T>(lhs: List<T>, rhs: List<T>, list: List<T>) -> List<T> {
         }
     case let .Cons(head, tailBox):
         return head() => appendHelper(tail(lhs), rhs, list)
+    case .Infinite:
+        assert(false, "Trying to append to the end of an infinite list")
     }
 }
 
