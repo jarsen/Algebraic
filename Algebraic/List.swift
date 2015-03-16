@@ -10,15 +10,10 @@ import Foundation
 
 public enum List<T> {
     case Nil
-    case Cons(@autoclosure () -> T, Box<List<T>>)
-    case Infinite(T, T->T)
+    case Cons(Box<T>, Box<List<T>>)
     
-    init(_ head: T, _ tail: Box<List<T>>) {
-        self = .Cons(head, tail)
-    }
-    
-    init(_ head: T, _ f: T->T) {
-        self = .Infinite(head, f)
+    init(_ head: T, _ tail: List<T>) {
+        self = .Cons(Box(head), Box(tail))
     }
 }
 
@@ -28,10 +23,8 @@ extension List : Printable {
             switch self {
             case Nil:
                 return "[]"
-            case let .Cons(head, tailBox):
-                return "\(head()) \(tailBox.unbox.description)"
-            case let .Infinite(h, f):
-                return "[\(h), \(head(tail(self))), \(head(tail(tail(self))))...]"
+            case let .Cons(headBox, tailBox):
+                return "\(headBox.unbox) \(tailBox.unbox.description)"
             }
         }
     }
@@ -44,9 +37,7 @@ public func head<T>(list: List<T>) -> T? {
     case .Nil:
         return nil
     case let .Cons(head, _):
-        return head()
-    case let .Infinite(head, f):
-        return head
+        return head.unbox
     }
 }
 
@@ -56,15 +47,13 @@ public func tail<T>(list: List<T>) -> List<T> {
         return .Nil
     case let .Cons(_, tailBox):
         return tailBox.unbox
-    case let .Infinite(head, f):
-        return .Infinite(f(head), f)
     }
 }
 
 // Mark: Building Lists
 
-public func cons<T>(element: T,_ list: List<T>=List.Nil) -> List<T> {
-    return .Cons(element, Box(list))
+public func cons<T>(element: T, _ list: List<T>=List.Nil) -> List<T> {
+    return List(element, list)
 }
 
 // equivalent to haskell's infix cons operator: `:`
@@ -84,13 +73,13 @@ public func fromCollection<C : CollectionType where C.Index : BidirectionalIndex
     }
 }
 
-extension List : ArrayLiteralConvertible {
+ extension List : ArrayLiteralConvertible {
     public init(arrayLiteral elements: T...) {
         self = fromCollection(elements)
     }
 }
 
-extension List {
+public extension List {
     public init(array: [T]) {
         self = fromCollection(array)
     }
@@ -118,12 +107,10 @@ func appendHelper<T>(lhs: List<T>, rhs: List<T>, list: List<T>) -> List<T> {
         case .Nil:
             return list
         case let .Cons(head, tailBox):
-            return head() => appendHelper(lhs, tail(rhs), list)
+            return head.unbox => appendHelper(lhs, tail(rhs), list)
         }
     case let .Cons(head, tailBox):
-        return head() => appendHelper(tail(lhs), rhs, list)
-    case .Infinite:
-        assert(false, "Trying to append to the end of an infinite list")
+        return head.unbox => appendHelper(tail(lhs), rhs, list)
     }
 }
 
@@ -134,7 +121,7 @@ public func map<T,U>(list: List<T>, f:T->U) -> List<U> {
     case .Nil:
         return .Nil
     case let .Cons(head, tailBox):
-        return f(head()) => map(tail(list), f)
+        return f(head.unbox) => map(tail(list), f)
     }
 }
 
@@ -143,8 +130,8 @@ public func filter<T>(list: List<T>, f:T->Bool) -> List<T> {
     case .Nil:
         return .Nil
     case let .Cons(head, tailBox):
-        if f(head()) {
-            return head() => filter(tail(list), f)
+        if f(head.unbox) {
+            return head.unbox => filter(tail(list), f)
         }
         else {
             return filter(tail(list), f)
@@ -157,7 +144,7 @@ public func foldl<T,U>(list: List<T>, accumulator: U, f:(U,T)->U) -> U {
     case .Nil:
         return accumulator
     case let .Cons(head, tailBox):
-        return foldl(tail(list), f(accumulator, head()), f)
+        return foldl(tail(list), f(accumulator, head.unbox), f)
     }
 }
 
@@ -166,7 +153,7 @@ public func foldr<T,U>(list: List<T>, accumulator: U, f:(T,U)->U) -> U {
     case .Nil:
         return accumulator
     case let .Cons(head, tailBox):
-        return f(head(), foldr(tail(list), accumulator, f))
+        return f(head.unbox, foldr(tail(list), accumulator, f))
     }
 }
 
@@ -184,7 +171,7 @@ public func elementAtIndex<T>(list: List<T>, n: Int) -> T {
         assert(false, "Error: \(n) is out of bounds of list")
     case let .Cons(head, tailBox):
         if n == 0 {
-            return head()
+            return head.unbox
         }
         else {
             return elementAtIndex(tailBox.unbox, n - 1)
@@ -211,8 +198,8 @@ public func takeWhile<T>(list: List<T>, f: T->Bool) -> List<T> {
     case .Nil:
         return .Nil
     case let .Cons(head, tailBox):
-        if f(head()) {
-            return head() => takeWhile(tail(list), f)
+        if f(head.unbox) {
+            return head.unbox => takeWhile(tail(list), f)
         }
         else {
             return .Nil
@@ -231,7 +218,7 @@ public func drop<T>(list: List<T>, n: Int) -> List<T> {
             return drop(tail(list), n - 1)
         }
         else {
-            return head() => drop(tail(list), n)
+            return head.unbox => drop(tail(list), n)
         }
     }
 }
@@ -241,7 +228,7 @@ public func dropWhile<T>(list: List<T>, f:T->Bool) -> List<T> {
     case .Nil:
         return .Nil
     case let .Cons(head, tailBox):
-        if f(head()) {
+        if f(head.unbox) {
             return dropWhile(tail(list), f)
         }
         else {
@@ -266,7 +253,7 @@ public func any<T>(list: List<T>, f:T->Bool) -> Bool {
     case .Nil:
         return false
     case let .Cons(head, tailBox):
-        if f(head()) {
+        if f(head.unbox) {
             return true
         }
         else {
@@ -280,7 +267,7 @@ public func all<T>(list: List<T>, f:T->Bool) -> Bool {
     case .Nil:
         return true
     case let .Cons(head, tailBox):
-        if !f(head()) {
+        if !f(head.unbox) {
             return false
         }
         else {
@@ -294,7 +281,7 @@ public func contains<T: Equatable>(list: List<T>, element: T) -> Bool {
     case .Nil:
         return false
     case let .Cons(head, tailBox):
-        if head() == element {
+        if head.unbox == element {
             return true
         }
         else {
@@ -335,11 +322,11 @@ public func replace<T>(list: List<T>, with: T, f:T->Bool) -> List<T> {
     case .Nil:
         return .Nil
     case let .Cons(head, tailBox):
-        if f(head()) {
+        if f(head.unbox) {
             return with => replace(tail(list), with, f)
         }
         else {
-            return head() => replace(tail(list), with, f)
+            return head.unbox => replace(tail(list), with, f)
         }
     }
 }
